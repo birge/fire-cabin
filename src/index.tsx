@@ -7,6 +7,8 @@ import { Provider as FelaProvider } from "react-fela";
 import configureStore from "./store";
 import App from "./App";
 
+import "./database";
+
 const store = configureStore();
 
 const renderer = createRenderer();
