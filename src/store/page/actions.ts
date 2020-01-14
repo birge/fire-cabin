@@ -2,24 +2,24 @@ import { HOME, LOGIN, PROFILE, REGISTER } from "./types";
 
 export function setPageHome() {
   return {
-    payload: HOME
+    type: HOME
   };
 }
 
 export function setPageLogin() {
   return {
-    payload: LOGIN
+    type: LOGIN
   };
 }
 
 export function setPageProfile() {
   return {
-    payload: PROFILE
+    type: PROFILE
   };
 }
 
 export function setPageRegister() {
   return {
-    payload: REGISTER
+    type: REGISTER
   };
 }

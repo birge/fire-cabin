@@ -8,12 +8,14 @@ import { AppState } from "../../store";
 import {
   setPageLogin,
   setPageRegister,
-  setPageProfile
+  setPageProfile,
+  setPageHome
 } from "../../store/page/actions";
 import { removeUser } from "../../store/user/actions";
 
 const TitleStyles = () => ({
-  flexGrow: 1
+  flexGrow: 1,
+  cursor: "pointer"
 });
 
 const selectUser = (state: AppState) => state.user;
@@ -40,35 +42,37 @@ const NavBar: React.FC = () => {
     dispatch(setPageProfile());
   };
 
+  const home = () => {
+    dispatch(setPageHome());
+  };
+
   return (
-    <div className={css(TitleStyles)}>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" className={css(TitleStyles)}>
-            Townly Cabin
-          </Typography>
-          {user.loggedIn ? (
-            <>
-              <Button color="inherit" onClick={profile}>
-                {user.name}
-              </Button>
-              <Button color="inherit" onClick={logout}>
-                Log out
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button color="inherit" onClick={login}>
-                Log in
-              </Button>
-              <Button color="inherit" onClick={register}>
-                Register
-              </Button>
-            </>
-          )}
-        </Toolbar>
-      </AppBar>
-    </div>
+    <AppBar position="static">
+      <Toolbar>
+        <Typography variant="h6" className={css(TitleStyles)} onClick={home}>
+          Townly Cabin
+        </Typography>
+        {user.loggedIn ? (
+          <>
+            <Button color="inherit" onClick={profile}>
+              {user.name}
+            </Button>
+            <Button color="inherit" onClick={logout}>
+              Log out
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button color="inherit" onClick={login}>
+              Log in
+            </Button>
+            <Button color="inherit" onClick={register}>
+              Register
+            </Button>
+          </>
+        )}
+      </Toolbar>
+    </AppBar>
   );
 };
 
