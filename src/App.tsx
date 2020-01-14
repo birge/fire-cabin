@@ -1,23 +1,19 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import Container from "@material-ui/core/Container";
 
-import { AppState } from "./store";
-import Calendar from "./components/Calendar";
-import SignIn from "./components/SignIn";
+import Main from "./components/Main";
 import useUserDetection from "./hooks/useUserDetection";
-
-const selectUser = (state: AppState) => state.user;
+import Nav from "./components/Nav";
 
 const App: React.FC = () => {
-  const user = useSelector(selectUser);
-
   useUserDetection();
 
-  if (user.loggedIn) {
-    return <Calendar />;
-  }
-
-  return <SignIn />;
+  return (
+    <Container maxWidth="xl">
+      <Nav />
+      <Main />
+    </Container>
+  );
 };
 
 export default App;

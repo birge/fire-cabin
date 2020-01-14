@@ -2,15 +2,12 @@ import React, { useState } from "react";
 import firebase from "firebase";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../store/user/actions";
-
-interface RegisterProps {
-  toggle: () => void;
-}
+import { setPageHome } from "../../store/page/actions";
 
 const sentenceCase = (str: string): string =>
   str[0].toUpperCase() + str.slice(1).toLowerCase();
 
-const Register: React.FC<RegisterProps> = ({ toggle }) => {
+const Register: React.FC = () => {
   const dispatch = useDispatch();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -72,6 +69,7 @@ const Register: React.FC<RegisterProps> = ({ toggle }) => {
             email
           })
         );
+        dispatch(setPageHome());
       });
   };
 
@@ -110,7 +108,6 @@ const Register: React.FC<RegisterProps> = ({ toggle }) => {
       <button disabled={!isValid} onClick={onSubmit}>
         submit
       </button>
-      <button onClick={toggle}>Log In</button>
     </div>
   );
 };

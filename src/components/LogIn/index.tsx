@@ -2,12 +2,9 @@ import React, { useState } from "react";
 import firebase from "firebase";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../store/user/actions";
+import { setPageHome } from "../../store/page/actions";
 
-interface LogInProps {
-  toggle: () => void;
-}
-
-const LogIn: React.FC<LogInProps> = ({ toggle }) => {
+const LogIn: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
@@ -35,6 +32,7 @@ const LogIn: React.FC<LogInProps> = ({ toggle }) => {
             loggedIn: Boolean(user)
           })
         );
+        dispatch(setPageHome());
       });
   };
 
@@ -49,7 +47,6 @@ const LogIn: React.FC<LogInProps> = ({ toggle }) => {
         <input type="password" value={password} onChange={onPasswordChange} />
       </label>
       <button onClick={handleSubmit}>Submit</button>
-      <button onClick={toggle}>Register</button>
     </div>
   );
 };
