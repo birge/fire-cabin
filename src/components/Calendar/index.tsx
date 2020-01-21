@@ -3,6 +3,7 @@ import { Container } from "@material-ui/core";
 import { useFela } from "react-fela";
 
 import Calendar from "./Calendar";
+import { families } from "../../constants";
 
 const pill = () => ({
   borderRadius: "15px",
@@ -11,15 +12,15 @@ const pill = () => ({
 });
 
 const lucile = () => ({
-  backgroundColor: "#8D98E1"
+  backgroundColor: families.lucile.color
 });
 
 const isabel = () => ({
-  backgroundColor: "#3CCC92"
+  backgroundColor: families.isabel.color
 });
 
 const jane = () => ({
-  backgroundColor: "#CE6C6F"
+  backgroundColor: families.jane.color
 });
 
 const spacer = () => ({
