@@ -5,17 +5,17 @@ export interface family {
 
 type familyNames = "jane" | "lucile" | "isabel";
 
-const jane: family = Object.freeze({
+export const jane: family = Object.freeze({
   id: 1,
   color: "#CE6C6F"
 });
 
-const lucile: family = Object.freeze({
+export const lucile: family = Object.freeze({
   id: 2,
   color: "#8D98E1"
 });
 
-const isabel: family = Object.freeze({
+export const isabel: family = Object.freeze({
   id: 3,
   color: "#3CCC92"
 });
@@ -25,18 +25,6 @@ export const families: { [key in familyNames]: family } = Object.freeze({
   lucile,
   isabel
 });
-
-export const getFamilyOrder = (year: number): family[] => {
-  if (year % 3 === 0) {
-    return [jane, lucile, isabel];
-  }
-
-  if (year % 3 === 1) {
-    return [isabel, jane, lucile];
-  }
-
-  return [lucile, isabel, jane];
-};
 
 export interface datePeriod {
   start: {

@@ -7,7 +7,7 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { Button } from "@material-ui/core";
 
 import Day from "./Day";
-import { getFamilyOrder } from "../../constants";
+import { getFamilyOrder } from "../../utils";
 
 const borderColor = "#dddddd";
 
