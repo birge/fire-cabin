@@ -1,4 +1,12 @@
-import * as moment from "moment";
+import {
+  addDays,
+  endOfMonth,
+  endOfWeek,
+  isBefore,
+  isSameDay,
+  startOfMonth,
+  startOfWeek
+} from "date-fns";
 import chunk from "lodash/chunk";
 
 import {
@@ -9,28 +17,22 @@ import {
   DateActionTypes
 } from "./types";
 
-const getStartDate = (month: number, year: number): moment.Moment =>
-  moment
-    .default({ year, month })
-    .startOf("month")
-    .startOf("week");
+const getStartDate = (month: number, year: number): Date =>
+  startOfWeek(startOfMonth(new Date(year, month)));
 
-const getEndDate = (month: number, year: number): moment.Moment =>
-  moment
-    .default({ year, month })
-    .endOf("month")
-    .endOf("week");
+const getEndDate = (month: number, year: number): Date =>
+  endOfWeek(endOfMonth(new Date(year, month)));
 
-const getDates = (month: number, year: number): moment.Moment[][] => {
+const getDates = (month: number, year: number): Date[][] => {
   const startDate = getStartDate(month, year);
   const endDate = getEndDate(month, year);
   const dates = [];
 
   let currentDate = startDate;
 
-  while (currentDate.isSameOrBefore(endDate)) {
+  while (isBefore(currentDate, endDate) || isSameDay(currentDate, endDate)) {
     dates.push(currentDate);
-    currentDate = moment.default(currentDate).add(1, "d");
+    currentDate = addDays(currentDate, 1);
   }
 
   return chunk(dates, 7);
@@ -59,11 +61,15 @@ const getPreviousMonth = (state: DateState): DateState => {
 };
 
 const getDefaultState = (): DateState => {
-  const month = moment.default().get("month");
-  const year = moment.default().get("year");
-  const dates = getDates(month, year);
+  const date = new Date();
+  const month = date.getMonth();
+  const year = date.getFullYear();
 
-  return { month, year, dates };
+  return {
+    month,
+    year,
+    dates: getDates(month, year)
+  };
 };
 
 function userReducer(

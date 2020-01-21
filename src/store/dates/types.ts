@@ -1,9 +1,7 @@
-import * as moment from "moment";
-
 export interface DateState {
   month: number;
   year: number;
-  dates: moment.Moment[][];
+  dates: Date[][];
 }
 
 export const SET_NEXT_MONTH = "SET_NEXT_MONTH";

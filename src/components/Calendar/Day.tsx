@@ -1,5 +1,4 @@
 import React from "react";
-import * as moment from "moment";
 import { useFela } from "react-fela";
 
 import {
@@ -9,22 +8,26 @@ import {
   thirdPeriod,
   datePeriod
 } from "../../constants";
+import { isSameDay } from "date-fns/esm";
 
-const today = moment.default();
+const today = new Date();
 
-const inReservePeriod = (day: moment.Moment, period: datePeriod): boolean => {
-  const month = day.get("month");
-  const date = day.get("date");
+const inReservePeriod = (day: Date, period: datePeriod): boolean => {
+  const month = day.getMonth();
+  const date = day.getDate();
 
   return (
     (month === period.start.month && date >= period.start.date) ||
     (month === period.end.month && date < period.end.date)
   );
 };
-const dayCss = (day: moment.Moment, familyOrder: family[], month: number) => {
+
+const dayCss = (day: Date, familyOrder: family[], month: number) => {
   let backgroundColor = "white";
 
-  if (day.isSame(today, "day")) {
+  isSameDay(today, day);
+
+  if (isSameDay(today, day)) {
     backgroundColor = "#D7F2FF";
   } else if (inReservePeriod(day, firstPeriod)) {
     backgroundColor = familyOrder[0].color;
@@ -35,8 +38,8 @@ const dayCss = (day: moment.Moment, familyOrder: family[], month: number) => {
   }
 
   return {
-    color: day.get("month") === month ? "black" : "#CCC",
-    height: "80px",
+    color: day.getMonth() === month ? "black" : "#CCC",
+    height: "90px",
     verticalAlign: "top",
     fontSize: "16px",
     padding: "6px, 0",
@@ -46,7 +49,7 @@ const dayCss = (day: moment.Moment, familyOrder: family[], month: number) => {
 };
 
 type TodoItemProps = {
-  day: moment.Moment;
+  day: Date;
   familyOrder: family[];
   month: number;
   year: number;
@@ -57,9 +60,7 @@ const Day: React.FC<TodoItemProps> = React.memo(
     const { css } = useFela();
 
     return (
-      <td className={css(dayCss(day, familyOrder, month))}>
-        {day.format("D")}
-      </td>
+      <td className={css(dayCss(day, familyOrder, month))}>{day.getDate()}</td>
     );
   }
 );
