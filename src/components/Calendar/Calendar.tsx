@@ -1,13 +1,19 @@
-import React, { useState, useMemo } from "react";
+import React, { useMemo } from "react";
 import { createComponent, createComponentWithProxy } from "react-fela";
+import { useSelector, useDispatch } from "react-redux";
 import * as moment from "moment";
-import { chunk } from "lodash";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { Button } from "@material-ui/core";
 
 import Day from "./Day";
 import { getFamilyOrder } from "../../utils";
+import { AppState } from "../../store";
+import {
+  setPreviousMonth,
+  setNextMonth,
+  setToday
+} from "../../store/dates/actions";
 
 const borderColor = "#dddddd";
 
@@ -64,74 +70,28 @@ const TableHeaders = createComponent(
   "th"
 );
 
-const getStartDate = (month: number, year: number): moment.Moment =>
-  moment
-    .default({ year, month })
-    .startOf("month")
-    .startOf("week");
-
-const getEndDate = (month: number, year: number): moment.Moment =>
-  moment
-    .default({ year, month })
-    .endOf("month")
-    .endOf("week");
-
-const getDates = (month: number, year: number): moment.Moment[][] => {
-  const startDate = getStartDate(month, year);
-  const endDate = getEndDate(month, year);
-  const dates = [];
-
-  let currentDate = startDate;
-
-  while (currentDate.isSameOrBefore(endDate)) {
-    dates.push(currentDate);
-    currentDate = moment.default(currentDate).add(1, "d");
-  }
-
-  return chunk(dates, 7);
-};
-
-const getDefaultState = () => {
-  const month = moment.default().get("month");
-  const year = moment.default().get("year");
-  const dates = getDates(month, year);
-
-  return { month, year, dates };
-};
+const dateSelector = (state: AppState) => state.dates;
 
 const Calendar: React.FC = React.memo(() => {
-  const [dates, setDates] = useState(getDefaultState());
+  const dates = useSelector(dateSelector);
+  const dispatch = useDispatch();
 
   const header = moment
     .default({ month: dates.month, year: dates.year })
     .format("MMMM YYYY");
 
   const handlePrevClick = () => {
-    const newMonth = dates.month === 0 ? 11 : dates.month - 1;
-    const newYear = dates.month === 0 ? dates.year - 1 : dates.year;
-
-    setDates({
-      month: newMonth,
-      year: newYear,
-      dates: getDates(newMonth, newYear)
-    });
+    dispatch(setPreviousMonth());
   };
 
   const familyOrder = useMemo(() => getFamilyOrder(dates.year), [dates.year]);
 
   const handleNextClick = () => {
-    const newMonth = dates.month === 11 ? 0 : dates.month + 1;
-    const newYear = dates.month === 11 ? dates.year + 1 : dates.year;
-
-    setDates({
-      month: newMonth,
-      year: newYear,
-      dates: getDates(newMonth, newYear)
-    });
+    dispatch(setNextMonth());
   };
 
   const handleTodayClick = () => {
-    setDates(getDefaultState);
+    dispatch(setToday());
   };
 
   return (

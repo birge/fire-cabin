@@ -3,6 +3,7 @@ import { Container } from "@material-ui/core";
 import { useFela } from "react-fela";
 
 import Calendar from "./Calendar";
+import Booking from "./Booking";
 import { families } from "../../constants";
 
 const pill = () => ({
@@ -29,12 +30,21 @@ const spacer = () => ({
   margin: "20px 0"
 });
 
+const priority = () => ({
+  marginTop: "10px"
+});
+
+const header = () => ({
+  margin: "10px 0"
+});
+
 const CalendarWrapper: React.FC = () => {
   const { css } = useFela();
   return (
     <Container maxWidth="xl">
-      <h1>Calendar</h1>
-      <div>
+      <h1 className={css(header)}>Calendar</h1>
+      <Booking />
+      <div className={css(priority)}>
         Prioirty Time Color Code:
         <span className={css(pill, lucile)}>Lucile</span>
         <span className={css(pill, isabel)}>Isabel</span>

@@ -1,9 +1,11 @@
 import { createStore, combineReducers } from "redux";
 
-import userReducer from "./user/reducers";
+import datesReducer from "./dates/reducers";
 import pageReducer from "./page/reducers";
+import userReducer from "./user/reducers";
 
 const rootReducer = combineReducers({
+  dates: datesReducer,
   page: pageReducer,
   user: userReducer
 });
