@@ -23,6 +23,7 @@ const Booking: React.FC = () => {
   const handleSetStartDate = (date: Date | null) => {
     setStartDate(date);
   };
+
   const handleSetEndDate = (date: Date | null) => {
     setEndDate(date);
   };

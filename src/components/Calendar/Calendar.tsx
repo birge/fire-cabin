@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useState } from "react";
+import React, { useMemo } from "react";
 import { createComponent, createComponentWithProxy } from "react-fela";
 import { useSelector, useDispatch } from "react-redux";
 import format from "date-fns/format";
@@ -14,7 +14,6 @@ import {
   setNextMonth,
   setToday
 } from "../../store/dates/actions";
-import { db } from "../../database";
 
 const borderColor = "#dddddd";
 
@@ -78,7 +77,6 @@ const dateSelector = (state: AppState) => state.dates;
 const Calendar: React.FC = React.memo(() => {
   const dates = useSelector(dateSelector);
   const dispatch = useDispatch();
-  const [reservations, setReservations] = useState([]);
 
   const header = format(new Date(dates.year, dates.month), "MMMM yyyy");
 
@@ -95,25 +93,6 @@ const Calendar: React.FC = React.memo(() => {
   const handleTodayClick = () => {
     dispatch(setToday());
   };
-
-  // useEffect(() => {
-  //   const unsubscribe = db
-  //     .collection("events")
-  //     .where("year", "==", dates.year)
-  //     .onSnapshot(querySnapshot => {
-  //       const events = [];
-  //       querySnapshot.forEach(doc => {
-  //         events.push({
-  //           id: doc.id,
-  //           ...doc.data()
-  //         });
-  //       });
-  //       setReservations(events);
-  //     });
-  //   return () => {
-  //     unsubscribe();
-  //   };
-  // }, [dates.year]);
 
   return (
     <Column>

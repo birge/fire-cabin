@@ -8,7 +8,6 @@ import configureStore from "./store";
 import App from "./App";
 
 import "./database";
-import "date-fns";
 
 const store = configureStore();
 
