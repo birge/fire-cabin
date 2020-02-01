@@ -11,18 +11,18 @@ import {
   setPageProfile,
   setPageHome
 } from "../../store/page/actions";
-import { removeUser } from "../../store/user/actions";
+import { removeCurrentUser } from "../../store/currentUser/actions";
 
 const TitleStyles = () => ({
   flexGrow: 1,
   cursor: "pointer"
 });
 
-const selectUser = (state: AppState) => state.user;
+const selectCurrentUser = (state: AppState) => state.currentUser;
 
 const NavBar: React.FC = () => {
   const dispatch = useDispatch();
-  const user = useSelector(selectUser);
+  const currentUser = useSelector(selectCurrentUser);
   const { css } = useFela();
 
   const login = () => {
@@ -35,7 +35,7 @@ const NavBar: React.FC = () => {
 
   const logout = () => {
     firebase.auth().signOut();
-    dispatch(removeUser());
+    dispatch(removeCurrentUser());
   };
 
   const profile = () => {
@@ -52,10 +52,10 @@ const NavBar: React.FC = () => {
         <Typography variant="h6" className={css(TitleStyles)} onClick={home}>
           Townly Cabin
         </Typography>
-        {user.loggedIn ? (
+        {currentUser.loggedIn ? (
           <>
             <Button color="inherit" onClick={profile}>
-              {user.name}
+              {currentUser.name}
             </Button>
             <Button color="inherit" onClick={logout}>
               Log out

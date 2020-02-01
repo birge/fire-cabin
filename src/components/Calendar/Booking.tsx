@@ -10,14 +10,14 @@ import {
 import { AppState } from "../../store";
 import { db } from "../../database";
 
-const selectUser = (state: AppState) => state.user;
+const selectCurrentUser = (state: AppState) => state.currentUser;
 const selectDates = (state: AppState) => state.dates;
 
 const Booking: React.FC = () => {
   const [showSelector, setShowSelector] = useState(false);
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
-  const user = useSelector(selectUser);
+  const currentUser = useSelector(selectCurrentUser);
   const dates = useSelector(selectDates);
 
   const handleSetStartDate = (date: Date | null) => {
@@ -34,12 +34,12 @@ const Booking: React.FC = () => {
     db.collection("events").add({
       startDate,
       endDate,
-      userId: user.id,
+      userId: currentUser.id,
       year: dates.year
     });
   };
 
-  if (!user.loggedIn) {
+  if (!currentUser.loggedIn) {
     return null;
   }
 

@@ -1,15 +1,18 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import firebase from "firebase";
-import { setUser, removeUser } from "../store/user/actions";
+import {
+  setCurrentUser,
+  removeCurrentUser
+} from "../store/currentUser/actions";
 
-const useUserDetection = () => {
+const useCurrentUserDetection = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         dispatch(
-          setUser({
+          setCurrentUser({
             name: user.displayName || "",
             email: user.email || "",
             id: user.uid,
@@ -17,10 +20,10 @@ const useUserDetection = () => {
           })
         );
       } else {
-        dispatch(removeUser());
+        dispatch(removeCurrentUser());
       }
     });
   }, [dispatch]);
 };
 
-export default useUserDetection;
+export default useCurrentUserDetection;

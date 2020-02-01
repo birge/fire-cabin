@@ -1,5 +1,6 @@
 import React from "react";
 import { useFela } from "react-fela";
+import { isSameDay } from "date-fns/esm";
 
 import {
   family,
@@ -8,7 +9,8 @@ import {
   thirdPeriod,
   datePeriod
 } from "../../constants";
-import { isSameDay } from "date-fns/esm";
+
+import Events from "./Events";
 
 const today = new Date();
 
@@ -60,7 +62,10 @@ const Day: React.FC<TodoItemProps> = React.memo(
     const { css } = useFela();
 
     return (
-      <td className={css(dayCss(day, familyOrder, month))}>{day.getDate()}</td>
+      <td className={css(dayCss(day, familyOrder, month))}>
+        {day.getDate()}
+        <Events day={day} />
+      </td>
     );
   }
 );

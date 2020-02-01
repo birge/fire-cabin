@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { HOME, LOGIN, PROFILE, REGISTER } from "../../store/page/types";
 import { AppState } from "../../store";
 import Calendar from "../Calendar";
-import useUserDetection from "../../hooks/useUserDetection";
+import useCurrentUserDetection from "../../hooks/useCurrentUserDetection";
 import LogIn from "../LogIn";
 import Register from "../Register";
 
@@ -13,7 +13,7 @@ const selectPage = (state: AppState) => state.page;
 const Main: React.FC = () => {
   const page = useSelector(selectPage);
 
-  useUserDetection();
+  useCurrentUserDetection();
 
   switch (page) {
     case HOME:

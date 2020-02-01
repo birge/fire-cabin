@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { Container, TextField, Button } from "@material-ui/core";
 import { useFela } from "react-fela";
 
-import { setUser } from "../../store/user/actions";
+import { setCurrentUser } from "../../store/currentUser/actions";
 import { setPageHome } from "../../store/page/actions";
 
 const spacer = () => ({
@@ -94,7 +94,7 @@ const Register: React.FC = () => {
               .set({ displayName, email });
           });
         dispatch(
-          setUser({
+          setCurrentUser({
             id: user?.uid || "",
             loggedIn: true,
             name: displayName,
