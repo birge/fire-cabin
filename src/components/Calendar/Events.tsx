@@ -29,7 +29,7 @@ const Events: React.FC<Events> = React.memo(({ day }) => {
     if (isSameDay(reservation.endDate, day)) {
       events.push(
         <div className={css(eventStyles)} key={`arrive${day.getDate()}`}>
-          {users[reservation.userId]?.name} leaves
+          {users[reservation.userId]?.name.split(" ")[0]} leaves
         </div>
       );
     }
@@ -37,7 +37,7 @@ const Events: React.FC<Events> = React.memo(({ day }) => {
     if (isSameDay(reservation.startDate, day)) {
       events.push(
         <div className={css(eventStyles)} key={`leave${day.getDate()}`}>
-          {users[reservation.userId]?.name} arrives
+          {users[reservation.userId]?.name.split(" ")[0]} arrives
         </div>
       );
     }
