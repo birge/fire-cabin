@@ -1,6 +1,6 @@
 export type ReservationState = Reservation[];
 
-interface Reservation {
+export interface Reservation {
   id: string;
   userId: string;
   startDate: Date;
