@@ -43,7 +43,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({
   const submitForgot = () => {
     firebase
       .auth()
-      .sendPasswordResetEmail(email)
+      .sendPasswordResetEmail(email.trim())
       .then(() => {
         toggleForgot(true);
       })

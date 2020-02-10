@@ -39,14 +39,14 @@ const Row = createComponent(() => ({
 
 const LeftChevron = createComponentWithProxy(
   () => ({
-    fontSize: "40px"
+    fontSize: "40px !important"
   }),
   ChevronLeftIcon
 );
 
 const RightChevron = createComponentWithProxy(
   () => ({
-    fontSize: "40px"
+    fontSize: "40px !important"
   }),
   ChevronRightIcon
 );
