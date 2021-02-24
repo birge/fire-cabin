@@ -37,35 +37,37 @@ export interface datePeriod {
   };
 }
 
+// Months are 0 based
+// Start dates are inclusive and end dates are exclusive
 export const firstPeriod: datePeriod = Object.freeze({
   start: {
     month: 5,
-    date: 18
+    date: 19
   },
   end: {
     month: 6,
-    date: 19
+    date: 17
   }
 });
 
 export const secondPeriod: datePeriod = Object.freeze({
   start: {
     month: 6,
-    date: 19
+    date: 17
   },
   end: {
     month: 7,
-    date: 13
+    date: 14
   }
 });
 
 export const thirdPeriod: datePeriod = Object.freeze({
   start: {
     month: 7,
-    date: 13
+    date: 14
   },
   end: {
     month: 8,
-    date: 9
+    date: 12
   }
 });
