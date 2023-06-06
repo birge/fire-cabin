@@ -8,10 +8,35 @@ import { Reservation } from "../../store/reservations/types";
 
 import EditEvent from "./EditEvent";
 
-const eventStyles = {
-  backgroundColor: "#F7A337",
+const endStyles = {
+  backgroundColor: "#3f51b5",
+  paddingRight: "15px",
+  height: "25px",
+  display: "flex",
+  borderRadius: "0 10px 10px 0",
+  marginLeft: "-1px",
+  marginRight: "15px",
+  marginBottom: "10px",
+};
+
+const startStyles = {
+  backgroundColor: "#3f51b5",
   color: "white",
-  paddingLeft: "3px"
+  display: "flex",
+  alignItems: "center",
+  marginLeft: "15px",
+  marginRight: "-1px",
+  minHeight: "25px",
+  paddingLeft: "15px",
+  borderRadius: "10px 0 0 10px",
+};
+
+const midStyles = {
+  display: "flex",
+  marginLeft: "-2px",
+  marginRight: "-2px",
+  height: "25px",
+  backgroundColor: "#3f51b5",
 };
 
 type EventsProps = {
@@ -25,10 +50,8 @@ const Events: React.FC<EventsProps> = React.memo(({ day }) => {
   const { css } = useFela();
   const reservations = useSelector(reservationsSelector);
   const users = useSelector(usersSelector);
-  const [
-    reservationToEdit,
-    setReservationToEdit
-  ] = useState<Reservation | null>(null);
+  const [reservationToEdit, setReservationToEdit] =
+    useState<Reservation | null>(null);
 
   const events: JSX.Element[] = [];
 
@@ -40,27 +63,25 @@ const Events: React.FC<EventsProps> = React.memo(({ day }) => {
     setReservationToEdit(null);
   };
 
-  reservations.forEach(reservation => {
+  reservations.forEach((reservation) => {
     if (isSameDay(reservation.endDate, day)) {
-      events.push(
+      events.unshift(
         <div
-          className={css(eventStyles)}
-          key={`arrive${day.getDate()}`}
+          className={css(endStyles)}
+          key={`leave${day.getDate()}`}
           onClick={editEvent(reservation)}
-        >
-          {users[reservation.userId]?.name.split(" ")[0]} leaves
-        </div>
+        />
       );
     }
 
     if (isSameDay(reservation.startDate, day)) {
       events.push(
         <div
-          className={css(eventStyles)}
-          key={`leave${day.getDate()}`}
+          className={css(startStyles)}
+          key={`arrive${day.getDate()}`}
           onClick={editEvent(reservation)}
         >
-          {users[reservation.userId]?.name.split(" ")[0]} arrives
+          {users[reservation.userId]?.name.split(" ")[0]}'s reservation
         </div>
       );
     }
@@ -73,12 +94,10 @@ const Events: React.FC<EventsProps> = React.memo(({ day }) => {
     ) {
       events.push(
         <div
-          className={css(eventStyles)}
+          className={css(midStyles)}
           key={`occupied${day.getDate()}`}
           onClick={editEvent(reservation)}
-        >
-          occupied
-        </div>
+        />
       );
     }
   });
