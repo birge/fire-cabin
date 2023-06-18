@@ -2,10 +2,16 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Button } from "@material-ui/core";
 import DateFnsUtils from "@date-io/date-fns";
-import { isSameDay, differenceInDays } from "date-fns";
+import {
+  isSameDay,
+  differenceInDays,
+  areIntervalsOverlapping,
+  startOfDay,
+  endOfDay,
+} from "date-fns";
 import {
   MuiPickersUtilsProvider,
-  KeyboardDatePicker
+  KeyboardDatePicker,
 } from "@material-ui/pickers";
 
 import { AppState } from "../../store";
@@ -33,7 +39,7 @@ const Booking: React.FC = () => {
     setEndDate(date);
   };
 
-  const toggleShowSelector = () => setShowSelector(prev => !prev);
+  const toggleShowSelector = () => setShowSelector((prev) => !prev);
 
   const handleSubmit = () => {
     if (!startDate) {
@@ -56,15 +62,15 @@ const Booking: React.FC = () => {
       return setError("Please reserve less than 30 days.");
     }
 
-    const conflict = reservations.some(reservation =>
-      Boolean(
-        isSameDay(reservation.startDate, startDate) ||
-          isSameDay(reservation.endDate, endDate) ||
-          (startDate > reservation.startDate &&
-            startDate < reservation.endDate) ||
-          (endDate > reservation.startDate && endDate < reservation.endDate)
-      )
-    );
+    const conflict = reservations.some((reservation) => {
+      return areIntervalsOverlapping(
+        { start: endOfDay(startDate), end: startOfDay(endDate) },
+        {
+          start: endOfDay(reservation.startDate),
+          end: startOfDay(reservation.endDate),
+        }
+      );
+    });
 
     if (conflict) {
       return setError("Reservation conflicts with anothere reservation");
@@ -74,7 +80,7 @@ const Booking: React.FC = () => {
       startDate,
       endDate,
       userId: currentUser.id,
-      year: dates.year
+      year: dates.year,
     });
 
     setShowSelector(false);
@@ -109,7 +115,7 @@ const Booking: React.FC = () => {
               value={startDate}
               variant="inline"
               KeyboardButtonProps={{
-                "aria-label": "change date"
+                "aria-label": "change date",
               }}
             />
             <KeyboardDatePicker
@@ -125,7 +131,7 @@ const Booking: React.FC = () => {
               value={endDate}
               variant="inline"
               KeyboardButtonProps={{
-                "aria-label": "change date"
+                "aria-label": "change date",
               }}
             />
             <Button variant="contained" color="primary" onClick={handleSubmit}>
