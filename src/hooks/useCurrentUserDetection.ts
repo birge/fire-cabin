@@ -1,15 +1,16 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import firebase from "firebase";
+import { onAuthStateChanged } from "firebase/auth";
 import {
   setCurrentUser,
   removeCurrentUser
 } from "../store/currentUser/actions";
+import { auth } from "../database";
 
 const useCurrentUserDetection = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(function(user) {
+    onAuthStateChanged(auth, function(user) {
       if (user) {
         dispatch(
           setCurrentUser({

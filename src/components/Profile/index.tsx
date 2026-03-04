@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { Container, Button, TextField } from "@material-ui/core";
+import { Container, Button, TextField } from "@mui/material";
 import { useFela } from "react-fela";
-import firebase from "firebase";
+import { updatePassword } from "firebase/auth";
+import { auth } from "../../database";
 
 import { AppState } from "../../store";
 
@@ -56,15 +57,16 @@ const Profile: React.FC = () => {
       return setError("Password needs to be at least 8 characters");
     }
 
-    firebase
-      .auth()
-      .currentUser?.updatePassword(password)
-      .then(() => {
-        setSuccess("Password reset successfully");
-      })
-      .catch(e => {
-        setError(e.message);
-      });
+    const user = auth.currentUser;
+    if (user) {
+      updatePassword(user, password)
+        .then(() => {
+          setSuccess("Password reset successfully");
+        })
+        .catch(e => {
+          setError(e.message);
+        });
+    }
   };
 
   return (

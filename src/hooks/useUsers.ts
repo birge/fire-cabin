@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { collection, onSnapshot } from "firebase/firestore";
 
 import { setUsers } from "../store/users/actions";
 import { db } from "../database";
@@ -9,9 +10,9 @@ const useUsers = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const unsubscribe = db.collection("users").onSnapshot(querySnapshot => {
+    const unsubscribe = onSnapshot(collection(db, "users"), (querySnapshot) => {
       const users: UsersState = {};
-      querySnapshot.forEach(doc => {
+      querySnapshot.forEach((doc) => {
         const data = doc.data();
         users[doc.id] = {
           id: doc.id,
@@ -21,6 +22,7 @@ const useUsers = () => {
       });
       dispatch(setUsers(users));
     });
+
     return () => {
       unsubscribe();
     };

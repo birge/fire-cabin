@@ -2,9 +2,9 @@ import React, { useMemo } from "react";
 import { createComponent, createComponentWithProxy } from "react-fela";
 import { useSelector, useDispatch } from "react-redux";
 import format from "date-fns/format";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import { Button } from "@material-ui/core";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { Button } from "@mui/material";
 
 import Day from "./Day";
 import { getFamilyOrder } from "../../utils";

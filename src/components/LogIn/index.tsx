@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import firebase from "firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch } from "react-redux";
-import { Container, TextField, Button } from "@material-ui/core";
+import { Container, TextField, Button } from "@mui/material";
 import { useFela } from "react-fela";
+import { auth } from "../../database";
 
 import { setCurrentUser } from "../../store/currentUser/actions";
 import { setPageHome } from "../../store/page/actions";
@@ -53,9 +54,7 @@ const LogIn: React.FC = () => {
 
   const handleSubmit = () => {
     if (!password || !email) return;
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
+    signInWithEmailAndPassword(auth, email, password)
       .then(({ user }) => {
         dispatch(
           setCurrentUser({

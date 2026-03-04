@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import firebase from "firebase";
-import { Container, TextField, Button } from "@material-ui/core";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { Container, TextField, Button } from "@mui/material";
 import { useFela } from "react-fela";
+import { auth } from "../../database";
 
 const spacer = () => ({
   paddingBottom: "10px"
@@ -41,9 +42,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({
   };
 
   const submitForgot = () => {
-    firebase
-      .auth()
-      .sendPasswordResetEmail(email.trim())
+    sendPasswordResetEmail(auth, email.trim())
       .then(() => {
         toggleForgot(true);
       })

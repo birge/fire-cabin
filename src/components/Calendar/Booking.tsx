@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { Button } from "@material-ui/core";
-import DateFnsUtils from "@date-io/date-fns";
+import { Button } from "@mui/material";
 import {
   isSameDay,
   differenceInDays,
@@ -9,10 +8,10 @@ import {
   startOfDay,
   endOfDay,
 } from "date-fns";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { collection, addDoc } from "firebase/firestore";
 
 import { AppState } from "../../store";
 import { db } from "../../database";
@@ -76,7 +75,7 @@ const Booking: React.FC = () => {
       return setError("Reservation conflicts with anothere reservation");
     }
 
-    db.collection("events").add({
+    addDoc(collection(db, "events"), {
       startDate,
       endDate,
       userId: currentUser.id,
@@ -102,42 +101,32 @@ const Booking: React.FC = () => {
       </Button>
       {showSelector && (
         <>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDatePicker
-              autoOk
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DatePicker
               disablePast
               format="MM/dd/yyyy"
-              initialFocusedDate={startIntialDate}
               label="Start date"
-              margin="normal"
-              minDateMessage={"Date can't be in the past"}
               onChange={handleSetStartDate}
               value={startDate}
-              variant="inline"
-              KeyboardButtonProps={{
-                "aria-label": "change date",
+              slotProps={{
+                textField: { margin: "normal" }
               }}
             />
-            <KeyboardDatePicker
-              autoOk
+            <DatePicker
               disablePast
               format="MM/dd/yyyy"
-              initialFocusedDate={endInitialDate}
               label="End date"
-              margin="normal"
-              minDate={startDate}
-              minDateMessage={"Date needs to be after start date"}
+              minDate={startDate || undefined}
               onChange={handleSetEndDate}
               value={endDate}
-              variant="inline"
-              KeyboardButtonProps={{
-                "aria-label": "change date",
+              slotProps={{
+                textField: { margin: "normal" }
               }}
             />
             <Button variant="contained" color="primary" onClick={handleSubmit}>
               Submit
             </Button>
-          </MuiPickersUtilsProvider>
+          </LocalizationProvider>
           {error && <div>{error}</div>}
         </>
       )}

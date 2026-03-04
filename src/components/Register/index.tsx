@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import firebase from "firebase";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 import { useDispatch } from "react-redux";
-import { Container, TextField, Button } from "@material-ui/core";
+import { Container, TextField, Button } from "@mui/material";
 import { useFela } from "react-fela";
+import { auth, db } from "../../database";
 
 import { setCurrentUser } from "../../store/currentUser/actions";
 import { setPageHome } from "../../store/page/actions";
@@ -77,22 +79,15 @@ const Register: React.FC = () => {
     }
 
     const displayName = `${sentenceCase(firstName)} ${sentenceCase(lastName)}`;
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
+    createUserWithEmailAndPassword(auth, email, password)
       .then(({ user }) => {
-        user
-          ?.updateProfile({
-            displayName
-          })
-          .then(() => {
-            const user = firebase.auth().currentUser;
-            firebase
-              .firestore()
-              .collection("users")
-              .doc(user?.uid)
-              .set({ displayName, email });
-          });
+        updateProfile(user, {
+          displayName
+        }).then(() => {
+          if (user?.uid) {
+            setDoc(doc(db, "users", user.uid), { displayName, email });
+          }
+        });
         dispatch(
           setCurrentUser({
             id: user?.uid || "",

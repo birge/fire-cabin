@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useFela } from "react-fela";
-import firebase from "firebase";
-import { Typography, AppBar, Toolbar, Button } from "@material-ui/core";
+import { Typography, AppBar, Toolbar, Button } from "@mui/material";
+import { auth } from "../../database";
 
 import { AppState } from "../../store";
 import {
@@ -34,7 +34,7 @@ const NavBar: React.FC = () => {
   };
 
   const logout = () => {
-    firebase.auth().signOut();
+    auth.signOut();
     dispatch(removeCurrentUser());
   };
 

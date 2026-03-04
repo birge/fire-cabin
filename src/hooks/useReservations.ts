@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { collection, query, where, onSnapshot } from "firebase/firestore";
 
 import { AppState } from "../store";
 import { setReservations } from "../store/reservations/actions";
@@ -13,22 +14,25 @@ const useReservations = () => {
   const dates = useSelector(dateSelector);
 
   useEffect(() => {
-    const unsubscribe = db
-      .collection("events")
-      .where("year", "==", dates.year)
-      .onSnapshot(querySnapshot => {
-        const events: ReservationState = [];
-        querySnapshot.forEach(doc => {
-          const data = doc.data();
-          events.push({
-            id: doc.id,
-            userId: data.userId,
-            startDate: new Date(data.startDate.seconds * 1000),
-            endDate: new Date(data.endDate.seconds * 1000)
-          });
+    const q = query(
+      collection(db, "events"),
+      where("year", "==", dates.year)
+    );
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const events: ReservationState = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        events.push({
+          id: doc.id,
+          userId: data.userId,
+          startDate: new Date(data.startDate.seconds * 1000),
+          endDate: new Date(data.endDate.seconds * 1000)
         });
-        dispatch(setReservations(events));
       });
+      dispatch(setReservations(events));
+    });
+
     return () => {
       unsubscribe();
     };
