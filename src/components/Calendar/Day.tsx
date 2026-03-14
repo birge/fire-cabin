@@ -1,5 +1,4 @@
 import React from "react";
-import { useFela } from "react-fela";
 import { isSameDay } from "date-fns/esm";
 
 import {
@@ -24,7 +23,7 @@ const inReservePeriod = (day: Date, period: datePeriod): boolean => {
   );
 };
 
-const dayCss = (day: Date, familyOrder: family[], month: number) => {
+const dayCss = (day: Date, familyOrder: family[], month: number): React.CSSProperties => {
   let backgroundColor = "white";
 
   isSameDay(today, day);
@@ -59,10 +58,8 @@ type TodoItemProps = {
 
 const Day: React.FC<TodoItemProps> = React.memo(
   ({ day, familyOrder, month, year }) => {
-    const { css } = useFela();
-
     return (
-      <td className={css(dayCss(day, familyOrder, month))}>
+      <td style={dayCss(day, familyOrder, month)}>
         {day.getDate()}
         <Events day={day} />
       </td>

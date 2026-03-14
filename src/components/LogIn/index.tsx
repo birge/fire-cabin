@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { Container, TextField, Button } from "@mui/material";
-import { useFela } from "react-fela";
 import { auth } from "../../database";
 
 import { setCurrentUser } from "../../store/currentUser/actions";
@@ -10,24 +9,20 @@ import { setPageHome } from "../../store/page/actions";
 
 import ForgotPassword from "./ForgotPassword";
 
-const spacer = () => ({
-  paddingBottom: "10px"
-});
-
-const input = () => ({
-  width: "300px"
-});
-
-const errorBox = () => ({
-  color: "#721c24",
-  border: "1px solid transparent",
-  backgroundColor: "#f8d7da",
-  borderColor: "#f5c6cb",
-  borderRadius: "5px 5px 0 0",
-  padding: "10px",
-  width: "280px",
-  marginBottom: "10px"
-});
+const styles = {
+  spacer: { paddingBottom: "10px" } as React.CSSProperties,
+  input: { width: "300px" } as React.CSSProperties,
+  errorBox: {
+    color: "#721c24",
+    border: "1px solid transparent",
+    backgroundColor: "#f8d7da",
+    borderColor: "#f5c6cb",
+    borderRadius: "5px 5px 0 0",
+    padding: "10px",
+    width: "280px",
+    marginBottom: "10px"
+  } as React.CSSProperties
+};
 
 const LogIn: React.FC = () => {
   const [showForgot, setShowForgot] = useState(false);
@@ -36,7 +31,6 @@ const LogIn: React.FC = () => {
   const [error, setError] = useState("");
   const [successMessage, setSuccesMessage] = useState("");
   const dispatch = useDispatch();
-  const { css } = useFela();
 
   const onEmailChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(target.value);
@@ -91,11 +85,11 @@ const LogIn: React.FC = () => {
         <>
           <h1>Sign in</h1>
           {successMessage && <div>{successMessage}</div>}
-          {error && <div className={css(errorBox)}>{error}</div>}
+          {error && <div style={styles.errorBox}>{error}</div>}
           <form onSubmit={handleSubmit}>
-            <div className={css(spacer)}>
+            <div style={styles.spacer}>
               <TextField
-                className={css(input)}
+                style={styles.input}
                 variant="filled"
                 label="Email"
                 type="email"
@@ -103,9 +97,9 @@ const LogIn: React.FC = () => {
                 onChange={onEmailChange}
               />
             </div>
-            <div className={css(spacer)}>
+            <div style={styles.spacer}>
               <TextField
-                className={css(input)}
+                style={styles.input}
                 variant="filled"
                 label="Password"
                 type="password"
@@ -113,7 +107,7 @@ const LogIn: React.FC = () => {
                 onChange={onPasswordChange}
               />
             </div>
-            <div className={css(spacer)}>
+            <div style={styles.spacer}>
               <Button onClick={() => toggleShowForgot(false)}>
                 Forgot password
               </Button>

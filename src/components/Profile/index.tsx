@@ -1,30 +1,25 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Container, Button, TextField } from "@mui/material";
-import { useFela } from "react-fela";
 import { updatePassword } from "firebase/auth";
 import { auth } from "../../database";
 
 import { AppState } from "../../store";
 
-const spacer = () => ({
-  paddingBottom: "10px"
-});
-
-const input = () => ({
-  width: "300px"
-});
-
-const errorBox = () => ({
-  color: "#721c24",
-  border: "1px solid transparent",
-  backgroundColor: "#f8d7da",
-  borderColor: "#f5c6cb",
-  borderRadius: "5px 5px 0 0",
-  padding: "10px",
-  width: "280px",
-  marginBottom: "10px"
-});
+const styles = {
+  spacer: { paddingBottom: "10px" } as React.CSSProperties,
+  input: { width: "300px" } as React.CSSProperties,
+  errorBox: {
+    color: "#721c24",
+    border: "1px solid transparent",
+    backgroundColor: "#f8d7da",
+    borderColor: "#f5c6cb",
+    borderRadius: "5px 5px 0 0",
+    padding: "10px",
+    width: "280px",
+    marginBottom: "10px"
+  } as React.CSSProperties
+};
 
 const selectCurrentUser = (state: AppState) => state.currentUser;
 
@@ -34,7 +29,6 @@ const Profile: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const { css } = useFela();
 
   const onPasswordChange = ({
     target
@@ -75,11 +69,11 @@ const Profile: React.FC = () => {
       <form onSubmit={handlePasswordReset}>
         <div>Change Password:</div>
         {success && <div>{success}</div>}
-        {error && <div className={css(errorBox)}>{error}</div>}
-        <div className={css(spacer)}>
+        {error && <div style={styles.errorBox}>{error}</div>}
+        <div style={styles.spacer}>
           <TextField
             required
-            className={css(input)}
+            style={styles.input}
             variant="filled"
             label="Password"
             type="password"
@@ -87,10 +81,10 @@ const Profile: React.FC = () => {
             onChange={onPasswordChange}
           />
         </div>
-        <div className={css(spacer)}>
+        <div style={styles.spacer}>
           <TextField
             required
-            className={css(input)}
+            style={styles.input}
             variant="filled"
             label="Confrim password"
             type="password"

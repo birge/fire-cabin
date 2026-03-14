@@ -1,27 +1,22 @@
 import React, { useState } from "react";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { Container, TextField, Button } from "@mui/material";
-import { useFela } from "react-fela";
 import { auth } from "../../database";
 
-const spacer = () => ({
-  paddingBottom: "10px"
-});
-
-const input = () => ({
-  width: "300px"
-});
-
-const errorBox = () => ({
-  color: "#721c24",
-  border: "1px solid transparent",
-  backgroundColor: "#f8d7da",
-  borderColor: "#f5c6cb",
-  borderRadius: "5px 5px 0 0",
-  padding: "10px",
-  width: "280px",
-  marginBottom: "10px"
-});
+const styles = {
+  spacer: { paddingBottom: "10px" } as React.CSSProperties,
+  input: { width: "300px" } as React.CSSProperties,
+  errorBox: {
+    color: "#721c24",
+    border: "1px solid transparent",
+    backgroundColor: "#f8d7da",
+    borderColor: "#f5c6cb",
+    borderRadius: "5px 5px 0 0",
+    padding: "10px",
+    width: "280px",
+    marginBottom: "10px"
+  } as React.CSSProperties
+};
 
 type ForgotPasswordProps = {
   email: string;
@@ -35,7 +30,6 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({
   toggleForgot
 }) => {
   const [error, setError] = useState("");
-  const { css } = useFela();
 
   const onEmailChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(target.value);
@@ -54,11 +48,11 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({
   return (
     <Container maxWidth="sm">
       <h1>Forgot password</h1>
-      {error && <div className={css(errorBox)}>{error}</div>}
+      {error && <div style={styles.errorBox}>{error}</div>}
       <form onSubmit={submitForgot}>
-        <div className={css(spacer)}>
+        <div style={styles.spacer}>
           <TextField
-            className={css(input)}
+            style={styles.input}
             variant="filled"
             label="Email"
             type="email"

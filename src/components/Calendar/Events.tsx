@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useFela } from "react-fela";
 import { isSameDay, isAfter, isBefore } from "date-fns/esm";
 import { useSelector } from "react-redux";
 
@@ -8,7 +7,7 @@ import { Reservation } from "../../store/reservations/types";
 
 import EditEvent from "./EditEvent";
 
-const endStyles = {
+const endStyles: React.CSSProperties = {
   backgroundColor: "#3f51b5",
   paddingRight: "15px",
   height: "25px",
@@ -19,7 +18,7 @@ const endStyles = {
   marginBottom: "10px",
 };
 
-const startStyles = {
+const startStyles: React.CSSProperties = {
   backgroundColor: "#3f51b5",
   color: "white",
   display: "flex",
@@ -31,7 +30,7 @@ const startStyles = {
   borderRadius: "10px 0 0 10px",
 };
 
-const midStyles = {
+const midStyles: React.CSSProperties = {
   display: "flex",
   marginLeft: "-2px",
   marginRight: "-2px",
@@ -47,7 +46,6 @@ const reservationsSelector = (state: AppState) => state.reservations;
 const usersSelector = (state: AppState) => state.users;
 
 const Events: React.FC<EventsProps> = React.memo(({ day }) => {
-  const { css } = useFela();
   const reservations = useSelector(reservationsSelector);
   const users = useSelector(usersSelector);
   const [reservationToEdit, setReservationToEdit] =
@@ -67,7 +65,7 @@ const Events: React.FC<EventsProps> = React.memo(({ day }) => {
     if (isSameDay(reservation.endDate, day)) {
       events.unshift(
         <div
-          className={css(endStyles)}
+          style={endStyles}
           key={`leave${day.getDate()}`}
           onClick={editEvent(reservation)}
         />
@@ -77,7 +75,7 @@ const Events: React.FC<EventsProps> = React.memo(({ day }) => {
     if (isSameDay(reservation.startDate, day)) {
       events.push(
         <div
-          className={css(startStyles)}
+          style={startStyles}
           key={`arrive${day.getDate()}`}
           onClick={editEvent(reservation)}
         >
@@ -94,7 +92,7 @@ const Events: React.FC<EventsProps> = React.memo(({ day }) => {
     ) {
       events.push(
         <div
-          className={css(midStyles)}
+          style={midStyles}
           key={`occupied${day.getDate()}`}
           onClick={editEvent(reservation)}
         />

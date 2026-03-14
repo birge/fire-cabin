@@ -3,30 +3,25 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useDispatch } from "react-redux";
 import { Container, TextField, Button } from "@mui/material";
-import { useFela } from "react-fela";
 import { auth, db } from "../../database";
 
 import { setCurrentUser } from "../../store/currentUser/actions";
 import { setPageHome } from "../../store/page/actions";
 
-const spacer = () => ({
-  paddingBottom: "10px"
-});
-
-const input = () => ({
-  width: "300px"
-});
-
-const errorBox = () => ({
-  color: "#721c24",
-  border: "1px solid transparent",
-  backgroundColor: "#f8d7da",
-  borderColor: "#f5c6cb",
-  borderRadius: "5px 5px 0 0",
-  padding: "10px",
-  width: "280px",
-  marginBottom: "10px"
-});
+const styles = {
+  spacer: { paddingBottom: "10px" } as React.CSSProperties,
+  input: { width: "300px" } as React.CSSProperties,
+  errorBox: {
+    color: "#721c24",
+    border: "1px solid transparent",
+    backgroundColor: "#f8d7da",
+    borderColor: "#f5c6cb",
+    borderRadius: "5px 5px 0 0",
+    padding: "10px",
+    width: "280px",
+    marginBottom: "10px"
+  } as React.CSSProperties
+};
 
 const sentenceCase = (str: string): string =>
   str[0].toUpperCase() + str.slice(1).toLowerCase();
@@ -39,7 +34,6 @@ const Register: React.FC = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const { css } = useFela();
 
   const onFirstNameChange = ({
     target
@@ -114,32 +108,32 @@ const Register: React.FC = () => {
   return (
     <Container maxWidth="sm">
       <h1>Register</h1>
-      {error && <div className={css(errorBox)}>{error}</div>}
+      {error && <div style={styles.errorBox}>{error}</div>}
       <form onSubmit={handleSubmit}>
-        <div className={css(spacer)}>
+        <div style={styles.spacer}>
           <TextField
             required
-            className={css(input)}
+            style={styles.input}
             variant="filled"
             label="First name"
             value={firstName}
             onChange={onFirstNameChange}
           />
         </div>
-        <div className={css(spacer)}>
+        <div style={styles.spacer}>
           <TextField
             required
-            className={css(input)}
+            style={styles.input}
             variant="filled"
             label="Last name"
             value={lastName}
             onChange={onLastNameChange}
           />
         </div>
-        <div className={css(spacer)}>
+        <div style={styles.spacer}>
           <TextField
             required
-            className={css(input)}
+            style={styles.input}
             variant="filled"
             label="Email"
             type="email"
@@ -147,10 +141,10 @@ const Register: React.FC = () => {
             onChange={onEmailChange}
           />
         </div>
-        <div className={css(spacer)}>
+        <div style={styles.spacer}>
           <TextField
             required
-            className={css(input)}
+            style={styles.input}
             variant="filled"
             label="Password"
             type="password"
@@ -158,10 +152,10 @@ const Register: React.FC = () => {
             onChange={onPasswordChange}
           />
         </div>
-        <div className={css(spacer)}>
+        <div style={styles.spacer}>
           <TextField
             required
-            className={css(input)}
+            style={styles.input}
             variant="filled"
             label="Confrim password"
             type="password"

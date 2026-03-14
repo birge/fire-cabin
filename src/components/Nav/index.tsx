@@ -1,6 +1,5 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useFela } from "react-fela";
 import { Typography, AppBar, Toolbar, Button } from "@mui/material";
 import { auth } from "../../database";
 
@@ -13,17 +12,11 @@ import {
 } from "../../store/page/actions";
 import { removeCurrentUser } from "../../store/currentUser/actions";
 
-const TitleStyles = () => ({
-  flexGrow: 1,
-  cursor: "pointer"
-});
-
 const selectCurrentUser = (state: AppState) => state.currentUser;
 
 const NavBar: React.FC = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
-  const { css } = useFela();
 
   const login = () => {
     dispatch(setPageLogin());
@@ -49,7 +42,11 @@ const NavBar: React.FC = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="h6" className={css(TitleStyles)} onClick={home}>
+        <Typography
+          variant="h6"
+          sx={{ flexGrow: 1, cursor: "pointer" }}
+          onClick={home}
+        >
           Townly Cabin
         </Typography>
         {currentUser.loggedIn ? (

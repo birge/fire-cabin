@@ -20,12 +20,10 @@
     "@types/react-dom": "^18.2.18",
     "@types/react-redux": "^7.1.33",
     "date-fns": "^2.30.0",
-    "fela": "^12.2.1",
     "firebase": "^10.7.1",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-fela": "^12.2.1",
     "react-redux": "^9.0.4",
     "react-scripts": "5.0.1",
     "redux": "^5.0.0",
@@ -36,7 +34,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "pnpm build && firebase deploy"
+    "deploy": "npm run build && firebase deploy"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -53,5 +51,5 @@
       "last 1 safari version"
     ]
   },
-  "packageManager": "pnpm@9.15.4+sha512.b2dc20e2fc72b3e18848459b37359a32064663e5627a51e4c74b2c29dd8e8e0491483c3abb40789cfd578bf362fb6ba8261b05f0387d76792ed6e23ea3b1b6a0"
+  "packageManager": "npm@11.6.0"
 }

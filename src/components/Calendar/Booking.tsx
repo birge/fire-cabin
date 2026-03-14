@@ -116,7 +116,7 @@ const Booking: React.FC = () => {
               disablePast
               format="MM/dd/yyyy"
               label="End date"
-              minDate={startDate || undefined}
+              minDate={endInitialDate}
               onChange={handleSetEndDate}
               value={endDate}
               slotProps={{

@@ -1,5 +1,4 @@
 import React, { useMemo } from "react";
-import { createComponent, createComponentWithProxy } from "react-fela";
 import { useSelector, useDispatch } from "react-redux";
 import format from "date-fns/format";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -16,61 +15,6 @@ import {
 } from "../../store/dates/actions";
 
 const borderColor = "#dddddd";
-
-const Table = createComponent(
-  () => ({
-    marginTop: "50px",
-    width: "100%",
-    border: `1px solid ${borderColor}`,
-    borderCollapse: "collapse"
-  }),
-  "table"
-);
-
-const Column = createComponent(() => ({
-  display: "flex",
-  flexDirection: "column"
-}));
-
-const Row = createComponent(() => ({
-  display: "flex",
-  flexDirection: "row"
-}));
-
-const LeftChevron = createComponentWithProxy(
-  () => ({
-    fontSize: "40px !important"
-  }),
-  ChevronLeftIcon
-);
-
-const RightChevron = createComponentWithProxy(
-  () => ({
-    fontSize: "40px !important"
-  }),
-  ChevronRightIcon
-);
-
-const Header = createComponent(
-  () => ({
-    fontSize: "40px",
-    margin: 0
-  }),
-  "h1"
-);
-
-const TableHeaders = createComponent(
-  () => ({
-    backgroundColor: "#DDD",
-    color: "#666",
-    textAlign: "center",
-    border: "1px solid #999",
-    width: `${100 / 7}%`
-  }),
-  "th"
-);
-
-interface reservations {}
 
 const dateSelector = (state: AppState) => state.dates;
 
@@ -95,26 +39,48 @@ const Calendar: React.FC = React.memo(() => {
   };
 
   return (
-    <Column>
-      <Row>
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <div style={{ display: "flex", flexDirection: "row" }}>
         <Button variant="outlined" onClick={handleTodayClick}>
           Today
         </Button>
-        <LeftChevron onClick={handlePrevClick} />
-        <RightChevron onClick={handleNextClick} />
-        <Header>{header}</Header>
-      </Row>
+        <ChevronLeftIcon
+          style={{ fontSize: "40px" }}
+          onClick={handlePrevClick}
+        />
+        <ChevronRightIcon
+          style={{ fontSize: "40px" }}
+          onClick={handleNextClick}
+        />
+        <h1 style={{ fontSize: "40px", margin: 0 }}>{header}</h1>
+      </div>
 
-      <Table>
+      <table
+        style={{
+          marginTop: "50px",
+          width: "100%",
+          border: `1px solid ${borderColor}`,
+          borderCollapse: "collapse"
+        }}
+      >
         <thead>
           <tr>
-            <TableHeaders>Sunday</TableHeaders>
-            <TableHeaders>Monday</TableHeaders>
-            <TableHeaders>Tuesday</TableHeaders>
-            <TableHeaders>Wednesday</TableHeaders>
-            <TableHeaders>Thursday</TableHeaders>
-            <TableHeaders>Friday</TableHeaders>
-            <TableHeaders>Saturday</TableHeaders>
+            {["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].map(
+              day => (
+                <th
+                  key={day}
+                  style={{
+                    backgroundColor: "#DDD",
+                    color: "#666",
+                    textAlign: "center",
+                    border: "1px solid #999",
+                    width: `${100 / 7}%`
+                  }}
+                >
+                  {day}
+                </th>
+              )
+            )}
           </tr>
         </thead>
         <tbody>
@@ -132,8 +98,8 @@ const Calendar: React.FC = React.memo(() => {
             </tr>
           ))}
         </tbody>
-      </Table>
-    </Column>
+      </table>
+    </div>
   );
 });
 

@@ -5,11 +5,7 @@ interface UserState {
 }
 
 export interface UsersState {
-  [id: string]: {
-    id: string;
-    email: string;
-    name: string;
-  };
+  [id: string]: UserState;
 }
 
 export const SET_CURRENT_USERS = "SET_CURRENT_USERS";
