@@ -54,14 +54,15 @@ type TodoItemProps = {
   familyOrder: family[];
   month: number;
   year: number;
+  reservationLanes: Map<string, 0 | 1>;
 };
 
 const Day: React.FC<TodoItemProps> = React.memo(
-  ({ day, familyOrder, month, year }) => {
+  ({ day, familyOrder, month, year, reservationLanes }) => {
     return (
       <td style={dayCss(day, familyOrder, month)}>
         {day.getDate()}
-        <Events day={day} />
+        <Events day={day} reservationLanes={reservationLanes} />
       </td>
     );
   }

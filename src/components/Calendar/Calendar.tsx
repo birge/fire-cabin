@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import format from "date-fns/format";
+import { isBefore, isAfter, isSameDay } from "date-fns/esm";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Button } from "@mui/material";
@@ -8,6 +9,7 @@ import { Button } from "@mui/material";
 import Day from "./Day";
 import { getFamilyOrder } from "../../utils";
 import { AppState } from "../../store";
+import { Reservation } from "../../store/reservations/types";
 import {
   setPreviousMonth,
   setNextMonth,
@@ -17,9 +19,51 @@ import {
 const borderColor = "#dddddd";
 
 const dateSelector = (state: AppState) => state.dates;
+const reservationsSelector = (state: AppState) => state.reservations;
+
+/**
+ * Assign each reservation a lane (0 = top row, 1 = bottom row).
+ */
+function computeLanes(reservations: Reservation[]): Map<string, 0 | 1> {
+  const sorted = [...reservations].sort(
+    (a, b) => a.startDate.getTime() - b.startDate.getTime()
+  );
+  const lanes = new Map<string, 0 | 1>();
+
+  for (const res of sorted) {
+    // Check for overlaps with already assigned reservations
+    let usedLanes = new Set<0 | 1>();
+    
+    for (const other of sorted) {
+      const otherLane = lanes.get(other.id);
+      if (otherLane === undefined) continue;
+
+      // Two reservations overlap if A's start is before B's end AND B's start is before A's end.
+      // We use <= and >= to include same-day transitions as overlaps.
+      const overlaps = (
+        (isBefore(res.startDate, other.endDate) || isSameDay(res.startDate, other.endDate)) &&
+        (isBefore(other.startDate, res.endDate) || isSameDay(other.startDate, res.endDate))
+      );
+
+      if (overlaps) {
+        usedLanes.add(otherLane);
+      }
+    }
+
+    // Assign first available lane (0, then 1, then fallback to 1)
+    if (!usedLanes.has(0)) {
+      lanes.set(res.id, 0);
+    } else {
+      lanes.set(res.id, 1);
+    }
+  }
+
+  return lanes;
+}
 
 const Calendar: React.FC = React.memo(() => {
   const dates = useSelector(dateSelector);
+  const reservations = useSelector(reservationsSelector);
   const dispatch = useDispatch();
 
   const header = format(new Date(dates.year, dates.month), "MMMM yyyy");
@@ -37,6 +81,11 @@ const Calendar: React.FC = React.memo(() => {
   const handleTodayClick = () => {
     dispatch(setToday());
   };
+
+  const reservationLanes = useMemo(
+    () => computeLanes(reservations),
+    [reservations]
+  );
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
@@ -93,6 +142,7 @@ const Calendar: React.FC = React.memo(() => {
                   familyOrder={familyOrder}
                   month={dates.month}
                   year={dates.year}
+                  reservationLanes={reservationLanes}
                 />
               ))}
             </tr>
