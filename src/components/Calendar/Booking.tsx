@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { Button } from "@mui/material";
+import { Button, Box } from "@mui/material";
 import {
   isSameDay,
   differenceInDays,
@@ -100,7 +100,16 @@ const Booking: React.FC = () => {
         Reserve time
       </Button>
       {showSelector && (
-        <>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 2,
+            mt: 2,
+            flexWrap: "wrap",
+          }}
+        >
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
               disablePast
@@ -109,7 +118,7 @@ const Booking: React.FC = () => {
               onChange={handleSetStartDate}
               value={startDate}
               slotProps={{
-                textField: { margin: "normal" }
+                textField: { size: "small" },
               }}
             />
             <DatePicker
@@ -120,15 +129,21 @@ const Booking: React.FC = () => {
               onChange={handleSetEndDate}
               value={endDate}
               slotProps={{
-                textField: { margin: "normal" }
+                textField: { size: "small" },
               }}
             />
-            <Button variant="contained" color="primary" onClick={handleSubmit}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleSubmit}
+              size="large"
+              sx={{ height: 40 }}
+            >
               Submit
             </Button>
           </LocalizationProvider>
-          {error && <div>{error}</div>}
-        </>
+          {error && <div style={{ color: "red" }}>{error}</div>}
+        </Box>
       )}
     </>
   );

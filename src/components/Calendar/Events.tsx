@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { isSameDay, isAfter, isBefore } from "date-fns/esm";
+import { isSameDay, isAfter, isBefore } from "date-fns";
 import { useSelector } from "react-redux";
 
 import { AppState } from "../../store";
@@ -63,7 +63,7 @@ const Events: React.FC<EventsProps> = React.memo(({ day, reservationLanes }) => 
   const [reservationToEdit, setReservationToEdit] =
     useState<Reservation | null>(null);
 
-  const events: JSX.Element[] = [];
+  const events: React.JSX.Element[] = [];
 
   const editEvent = (reservation: Reservation) => () => {
     setReservationToEdit(reservation);

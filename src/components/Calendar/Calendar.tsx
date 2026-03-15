@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import format from "date-fns/format";
-import { isBefore, isAfter, isSameDay } from "date-fns/esm";
+import { format, isBefore, isSameDay } from "date-fns";
+
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Button } from "@mui/material";
@@ -33,7 +33,7 @@ function computeLanes(reservations: Reservation[]): Map<string, 0 | 1> {
   for (const res of sorted) {
     // Check for overlaps with already assigned reservations
     let usedLanes = new Set<0 | 1>();
-    
+
     for (const other of sorted) {
       const otherLane = lanes.get(other.id);
       if (otherLane === undefined) continue;

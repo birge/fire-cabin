@@ -1,5 +1,5 @@
 import React from "react";
-import { isSameDay } from "date-fns/esm";
+import { isSameDay } from "date-fns";
 
 import {
   family,
