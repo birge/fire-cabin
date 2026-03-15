@@ -4,7 +4,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import {
   setCurrentUser,
   removeCurrentUser
-} from "../store/currentUser/actions";
+} from "../store/currentUser/slice";
 import { auth } from "../database";
 
 const useCurrentUserDetection = () => {

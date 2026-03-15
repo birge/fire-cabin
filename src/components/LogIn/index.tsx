@@ -4,8 +4,9 @@ import { useDispatch } from "react-redux";
 import { Container, TextField, Button } from "@mui/material";
 import { auth } from "../../database";
 
-import { setCurrentUser } from "../../store/currentUser/actions";
-import { setPageHome } from "../../store/page/actions";
+import { Page, setPage } from "../../store/page/slice";
+import { setCurrentUser } from "../../store/currentUser/slice";
+
 
 import ForgotPassword from "./ForgotPassword";
 
@@ -49,16 +50,17 @@ const LogIn: React.FC = () => {
   const handleSubmit = () => {
     if (!password || !email) return;
     signInWithEmailAndPassword(auth, email, password)
-      .then(({ user }) => {
+      .then((userCredential) => {
+        const user = userCredential.user;
         dispatch(
           setCurrentUser({
-            id: user?.uid || "",
-            name: user?.displayName || "",
-            email: user?.email || "",
-            loggedIn: Boolean(user)
+            id: user.uid,
+            email: user.email || "",
+            loggedIn: true,
+            name: user.displayName || "",
           })
         );
-        dispatch(setPageHome());
+        dispatch(setPage(Page.HOME));
       })
       .catch(() => {
         setError("Invalid email or password");

@@ -3,7 +3,7 @@ import { isSameDay, isAfter, isBefore } from "date-fns";
 import { useSelector } from "react-redux";
 
 import { AppState } from "../../store";
-import { Reservation } from "../../store/reservations/types";
+import { Reservation } from "../../store/reservations/slice";
 
 import EditEvent from "./EditEvent";
 
@@ -14,36 +14,46 @@ const LANE_VERTICAL_STEP = LANE_HEIGHT + LANE_GAP;
 const baseStyle: React.CSSProperties = {
   position: "absolute",
   height: LANE_HEIGHT,
-  backgroundColor: "#3f51b5",
+  backgroundColor: "#1976d2", // primary main
+  color: "white",
   display: "flex",
   alignItems: "center",
   cursor: "pointer",
-  fontSize: "12px", // Small text for compact display
+  fontSize: "11px",
+  fontWeight: 500,
   whiteSpace: "nowrap",
   overflow: "hidden",
+  boxShadow: "0 1px 3px rgba(0,0,0,0.12)",
 };
+
 
 const endStyles: React.CSSProperties = {
   ...baseStyle,
   borderRadius: "0 10px 10px 0",
-  left: "-1px",
+  left: "0",
   right: "15px",
 };
 
+
+
 const startStyles: React.CSSProperties = {
   ...baseStyle,
-  color: "white",
-  paddingLeft: "10px",
-  borderRadius: "10px 0 0 10px",
+  paddingLeft: "12px",
+  borderRadius: "12px 0 0 12px",
   left: "15px",
-  right: "-1px",
+  right: "0",
 };
+
+
+
 
 const midStyles: React.CSSProperties = {
   ...baseStyle,
-  left: "-1px",
-  right: "-1px",
+  left: "0",
+  right: "0",
 };
+
+
 
 function getLaneTop(lane: 0 | 1): number {
   return lane * LANE_VERTICAL_STEP;

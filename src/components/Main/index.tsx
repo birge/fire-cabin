@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { HOME, LOGIN, PROFILE, REGISTER } from "../../store/page/types";
+import { Page } from "../../store/page/slice";
 import { AppState } from "../../store";
 import useCurrentUserDetection from "../../hooks/useCurrentUserDetection";
 
@@ -20,13 +20,13 @@ const Main: React.FC = () => {
     <React.Suspense fallback={<div>Loading...</div>}>
       {(() => {
         switch (page) {
-          case HOME:
+          case Page.HOME:
             return <Calendar />;
-          case LOGIN:
+          case Page.LOGIN:
             return <LogIn />;
-          case REGISTER:
+          case Page.REGISTER:
             return <Register />;
-          case PROFILE:
+          case Page.PROFILE:
             return <Profile />;
           default:
             return null;

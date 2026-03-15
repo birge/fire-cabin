@@ -5,8 +5,9 @@ import { useDispatch } from "react-redux";
 import { Container, TextField, Button } from "@mui/material";
 import { auth, db } from "../../database";
 
-import { setCurrentUser } from "../../store/currentUser/actions";
-import { setPageHome } from "../../store/page/actions";
+import { setCurrentUser } from "../../store/currentUser/slice";
+import { Page, setPage } from "../../store/page/slice";
+
 
 const styles = {
   spacer: { paddingBottom: "10px" } as React.CSSProperties,
@@ -81,16 +82,16 @@ const Register: React.FC = () => {
           if (user?.uid) {
             setDoc(doc(db, "users", user.uid), { displayName, email });
           }
+          dispatch(
+            setCurrentUser({
+              id: user.uid,
+              email: user.email || "",
+              loggedIn: true,
+              name: displayName,
+            })
+          );
+          dispatch(setPage(Page.HOME));
         });
-        dispatch(
-          setCurrentUser({
-            id: user?.uid || "",
-            loggedIn: true,
-            name: displayName,
-            email
-          })
-        );
-        dispatch(setPageHome());
       })
       .catch(({ code }) => {
         if (code === "auth/invalid-email") {

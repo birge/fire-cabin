@@ -4,17 +4,17 @@ import { format, isBefore, isSameDay } from "date-fns";
 
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { Button } from "@mui/material";
+import { Button, Typography, Box } from "@mui/material";
 
 import Day from "./Day";
 import { getFamilyOrder } from "../../utils";
 import { AppState } from "../../store";
-import { Reservation } from "../../store/reservations/types";
+import { Reservation } from "../../store/reservations/slice";
 import {
   setPreviousMonth,
   setNextMonth,
   setToday
-} from "../../store/dates/actions";
+} from "../../store/dates/slice";
 
 const borderColor = "#dddddd";
 
@@ -88,28 +88,29 @@ const Calendar: React.FC = React.memo(() => {
   );
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      <div style={{ display: "flex", flexDirection: "row" }}>
-        <Button variant="outlined" onClick={handleTodayClick}>
+    <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <Button variant="outlined" onClick={handleTodayClick} size="small" sx={{ mr: 2 }}>
           Today
         </Button>
         <ChevronLeftIcon
-          style={{ fontSize: "40px" }}
+          sx={{ fontSize: 32, cursor: "pointer", "&:hover": { color: "primary.main" } }}
           onClick={handlePrevClick}
         />
         <ChevronRightIcon
-          style={{ fontSize: "40px" }}
+          sx={{ fontSize: 32, cursor: "pointer", "&:hover": { color: "primary.main" } }}
           onClick={handleNextClick}
         />
-        <h1 style={{ fontSize: "40px", margin: 0 }}>{header}</h1>
-      </div>
+        <Typography variant="h4" component="h1" sx={{ ml: 2, fontWeight: 700 }}>
+          {header}
+        </Typography>
+      </Box>
 
       <table
         style={{
-          marginTop: "50px",
           width: "100%",
-          border: `1px solid ${borderColor}`,
-          borderCollapse: "collapse"
+          borderCollapse: "collapse",
+          borderSpacing: 0
         }}
       >
         <thead>
@@ -119,10 +120,11 @@ const Calendar: React.FC = React.memo(() => {
                 <th
                   key={day}
                   style={{
-                    backgroundColor: "#DDD",
+                    backgroundColor: "#f5f5f5",
                     color: "#666",
                     textAlign: "center",
-                    border: "1px solid #999",
+                    border: "1px solid #ddd",
+                    padding: "8px 0",
                     width: `${100 / 7}%`
                   }}
                 >
@@ -149,7 +151,7 @@ const Calendar: React.FC = React.memo(() => {
           ))}
         </tbody>
       </table>
-    </div>
+    </Box>
   );
 });
 

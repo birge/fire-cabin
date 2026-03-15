@@ -1,3 +1,4 @@
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   addDays,
   endOfMonth,
@@ -9,13 +10,11 @@ import {
 } from "date-fns";
 import chunk from "lodash/chunk";
 
-import {
-  DateState,
-  SET_NEXT_MONTH,
-  SET_PREVIOUS_MONTH,
-  SET_TODAY,
-  DateActionTypes
-} from "./types";
+export interface DateState {
+  month: number;
+  year: number;
+  dates: Date[][];
+}
 
 const getStartDate = (month: number, year: number): Date =>
   startOfWeek(startOfMonth(new Date(year, month)));
@@ -38,28 +37,6 @@ const getDates = (month: number, year: number): Date[][] => {
   return chunk(dates, 7);
 };
 
-const getNextMonth = (state: DateState): DateState => {
-  const newMonth = state.month === 11 ? 0 : state.month + 1;
-  const newYear = state.month === 11 ? state.year + 1 : state.year;
-
-  return {
-    month: newMonth,
-    year: newYear,
-    dates: getDates(newMonth, newYear)
-  };
-};
-
-const getPreviousMonth = (state: DateState): DateState => {
-  const newMonth = state.month === 0 ? 11 : state.month - 1;
-  const newYear = state.month === 0 ? state.year - 1 : state.year;
-
-  return {
-    month: newMonth,
-    year: newYear,
-    dates: getDates(newMonth, newYear)
-  };
-};
-
 const getDefaultState = (): DateState => {
   const date = new Date();
   const month = date.getMonth();
@@ -72,20 +49,29 @@ const getDefaultState = (): DateState => {
   };
 };
 
-function userReducer(
-  state = getDefaultState(),
-  action: DateActionTypes
-): DateState {
-  switch (action.type) {
-    case SET_NEXT_MONTH:
-      return getNextMonth(state);
-    case SET_PREVIOUS_MONTH:
-      return getPreviousMonth(state);
-    case SET_TODAY:
+const datesSlice = createSlice({
+  name: "dates",
+  initialState: getDefaultState(),
+  reducers: {
+    setNextMonth: (state) => {
+      const newMonth = state.month === 11 ? 0 : state.month + 1;
+      const newYear = state.month === 11 ? state.year + 1 : state.year;
+      state.month = newMonth;
+      state.year = newYear;
+      state.dates = getDates(newMonth, newYear);
+    },
+    setPreviousMonth: (state) => {
+      const newMonth = state.month === 0 ? 11 : state.month - 1;
+      const newYear = state.month === 0 ? state.year - 1 : state.year;
+      state.month = newMonth;
+      state.year = newYear;
+      state.dates = getDates(newMonth, newYear);
+    },
+    setToday: () => {
       return getDefaultState();
-    default:
-      return state;
+    }
   }
-}
+});
 
-export default userReducer;
+export const { setNextMonth, setPreviousMonth, setToday } = datesSlice.actions;
+export default datesSlice.reducer;

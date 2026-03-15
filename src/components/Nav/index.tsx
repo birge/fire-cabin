@@ -4,13 +4,9 @@ import { Typography, AppBar, Toolbar, Button } from "@mui/material";
 import { auth } from "../../database";
 
 import { AppState } from "../../store";
-import {
-  setPageLogin,
-  setPageRegister,
-  setPageProfile,
-  setPageHome
-} from "../../store/page/actions";
-import { removeCurrentUser } from "../../store/currentUser/actions";
+import { Page, setPage } from "../../store/page/slice";
+import { removeCurrentUser } from "../../store/currentUser/slice";
+
 
 const selectCurrentUser = (state: AppState) => state.currentUser;
 
@@ -19,11 +15,11 @@ const NavBar: React.FC = () => {
   const currentUser = useSelector(selectCurrentUser);
 
   const login = () => {
-    dispatch(setPageLogin());
+    dispatch(setPage(Page.LOGIN));
   };
 
   const register = () => {
-    dispatch(setPageRegister());
+    dispatch(setPage(Page.REGISTER));
   };
 
   const logout = () => {
@@ -32,12 +28,13 @@ const NavBar: React.FC = () => {
   };
 
   const profile = () => {
-    dispatch(setPageProfile());
+    dispatch(setPage(Page.PROFILE));
   };
 
   const home = () => {
-    dispatch(setPageHome());
+    dispatch(setPage(Page.HOME));
   };
+
 
   return (
     <AppBar position="static">

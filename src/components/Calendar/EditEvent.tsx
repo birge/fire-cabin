@@ -10,7 +10,7 @@ import Button from "@mui/material/Button";
 import { doc, deleteDoc } from "firebase/firestore";
 
 import { AppState } from "../../store";
-import { Reservation } from "../../store/reservations/types";
+import { Reservation } from "../../store/reservations/slice";
 import { db } from "../../database";
 
 type EditEventProps = {

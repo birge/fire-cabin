@@ -2,9 +2,8 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { collection, onSnapshot } from "firebase/firestore";
 
-import { setUsers } from "../store/users/actions";
+import { setUsers, UsersState } from "../store/users/slice";
 import { db } from "../database";
-import { UsersState } from "../store/users/types";
 
 const useUsers = () => {
   const dispatch = useDispatch();

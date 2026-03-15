@@ -13,18 +13,12 @@ Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
 
 The page will reload if you make edits.
 
-### `npm run build`
-
-Builds the app for production to the `dist` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-### `npm run preview`
-
-Locally preview the production build.
-
-### `npm run deploy`
-
-Builds the project and deploys it to Firebase Hosting.
+### Build and Development
+1. `npm install` - Install all dependencies.
+2. `npm start` - Start the local development server (Vite).
+3. `npm run build` - Create a production-ready bundle.
+4. `npm run deploy` - Build and deploy to Firebase.
+ Hosting.
 
 ---
 

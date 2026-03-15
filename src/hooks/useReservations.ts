@@ -3,9 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 
 import { AppState } from "../store";
-import { setReservations } from "../store/reservations/actions";
+import { setReservations } from "../store/reservations/slice";
 import { db } from "../database";
-import { ReservationState } from "../store/reservations/types";
 
 const dateSelector = (state: AppState) => state.dates;
 
@@ -20,7 +19,7 @@ const useReservations = () => {
     );
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const events: ReservationState = [];
+      const events: any[] = [];
       querySnapshot.forEach((doc) => {
         const data = doc.data();
         events.push({

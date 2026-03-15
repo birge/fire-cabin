@@ -26,10 +26,8 @@ const inReservePeriod = (day: Date, period: datePeriod): boolean => {
 const dayCss = (day: Date, familyOrder: family[], month: number): React.CSSProperties => {
   let backgroundColor = "white";
 
-  isSameDay(today, day);
-
   if (isSameDay(today, day)) {
-    backgroundColor = "#D7F2FF";
+    backgroundColor = "#e3f2fd"; // A light blue from MUI palette for Today
   } else if (inReservePeriod(day, firstPeriod)) {
     backgroundColor = familyOrder[0].color;
   } else if (inReservePeriod(day, secondPeriod)) {
@@ -39,13 +37,15 @@ const dayCss = (day: Date, familyOrder: family[], month: number): React.CSSPrope
   }
 
   return {
-    color: day.getMonth() === month ? "black" : "#CCC",
-    height: "90px",
+    color: day.getMonth() === month ? "black" : "#bdbdbd",
+    height: "100px",
     verticalAlign: "top",
-    fontSize: "16px",
-    padding: "6px, 0",
-    border: "1px solid #999",
-    backgroundColor
+    fontSize: "14px",
+    fontWeight: isSameDay(today, day) ? 700 : 400,
+    padding: "0",
+    border: "1px solid #ddd",
+    backgroundColor,
+    transition: "background-color 0.2s",
   };
 };
 

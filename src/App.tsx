@@ -5,6 +5,8 @@ import Main from "./components/Main";
 import useCurrentUserDetection from "./hooks/useCurrentUserDetection";
 import useReservations from "./hooks/useReservations";
 import useUsers from "./hooks/useUsers";
+import { ThemeProvider, CssBaseline } from "@mui/material";
+import theme from "./theme";
 import Nav from "./components/Nav";
 
 const App: React.FC = () => {
@@ -13,12 +15,13 @@ const App: React.FC = () => {
   useUsers();
 
   return (
-    <Container maxWidth="xl">
-      <div style={{ fontFamily: "Roboto, Helvetica, Arial, sans-serif" }}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Container maxWidth="xl" sx={{ py: 4 }}>
         <Nav />
         <Main />
-      </div>
-    </Container>
+      </Container>
+    </ThemeProvider>
   );
 };
 

@@ -11,6 +11,7 @@
     "@mui/icons-material": "^7.0.0",
     "@mui/material": "^7.0.0",
     "@mui/x-date-pickers": "^8.0.0",
+    "@reduxjs/toolkit": "^2.11.2",
     "@types/lodash": "^4.14.202",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
@@ -39,21 +40,6 @@
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "npm run build && npx firebase deploy"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   },
   "packageManager": "npm@11.6.0"
 }
