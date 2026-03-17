@@ -44,7 +44,7 @@ const NavBar: React.FC = () => {
           sx={{ flexGrow: 1, cursor: "pointer" }}
           onClick={home}
         >
-          Townly Cabin
+          Townley Cabin
         </Typography>
         {currentUser.loggedIn ? (
           <>
